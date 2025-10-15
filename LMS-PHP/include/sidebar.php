@@ -96,10 +96,10 @@
                     <div>
                         <ul class="navbar-nav ps-3">
                             <li>
-                                <a href="" class="nav-link"><i class="fa-solid fa-plus me-2"></i>Add New</a>
+                                <a href="<?php echo BASE_URL ?>Loans/add.php" class="nav-link"><i class="fa-solid fa-plus me-2"></i>Add New</a>
                             </li>
                             <li>
-                                <a href="" class="nav-link"><i class="fa-solid fa-list me-2"></i>Manage All</a>
+                                <a href="<?php echo BASE_URL ?>Loans" class="nav-link"><i class="fa-solid fa-list me-2"></i>Manage All</a>
                             </li>
                         </ul>
                     </div>

@@ -73,8 +73,8 @@ include_once(DIR_URL . 'include/sidebar.php');
                 </div>
               </div>
               <div class="col-md-12">
-                <button type="submit" name="submit" type="submit" class="btn btn-success">Publish</button>
-                <button type="submit" name="submit" class="btn btn-secondary">Reset</button>
+                <button type="submit" name="submit" type="submit" class="btn btn-success">Submit</button>
+                <button type="submited" name="submited" class="btn btn-secondary">Reset</button>
               </div>
             </form>
           </div>
