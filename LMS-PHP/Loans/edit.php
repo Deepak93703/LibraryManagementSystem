@@ -1,36 +1,39 @@
 <?php
 
 include_once("../config/config.php");
-include_once("../models/book.php");
+include_once("../models/loan.php");
+include_once("./include/middlewear.php");
+
 
 
 ?>
 
 <?php
 // Upade Book function
-if (isset($_POST['update'])) {
+if (isset($_POST['submit'])) {
+
     $res = updatingbook($conn, $_POST);
 
     if ($res === true) {
-        $_SESSION['success'] = "Books has been updated successfully";
-        header('Location:' . BASE_URL . "books");
+        $_SESSION['success'] = "Books has been Updated successfully";
+        header('Location:' . BASE_URL . "Loans");
         exit;
     } else {
         $_SESSION['error'] = $res['error'] . $conn->error;
-        header('Location:' . BASE_URL . "books/?id=" . $_POST['id']);
+        header('Location:' . BASE_URL . "loans/?id=" . $_POST['id']);
         exit;
     }
 }
 
 
-// Read gets Parameter to get book data
+// Read gets Parameter to get book loan data
 if (isset($_GET['id']) && $_GET['id'] > 0) {
-    $book = getBookById($conn, $_GET['id']);
-    if ($book->num_rows > 0) {
-        $books = mysqli_fetch_assoc($book);
+    $bookloan = getBookById($conn, $_GET['id']);
+    if ($bookloan->num_rows > 0) {
+        $booksloandata = mysqli_fetch_assoc($bookloan);
     }
 } else {
-    header("LOCATION:" . BASE_URL . "books");
+    header("LOCATION:" . BASE_URL . "Loans");
     exit;
 }
 ?>
@@ -51,70 +54,73 @@ include_once(DIR_URL . 'include/sidebar.php');
         <div class="row dashboard-counts">
             <div class="col-md-12">
                 <?php include_once(DIR_URL . "./include/alerts.php") ?>
-                <h4 class="fw-bold">Edit Books</h4>
+                <h4 class="fw-bold">Add Loan</h4>
             </div>
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Fill the Form</div>
                     <div class="card-body">
-                        <form method="post" action="<?php echo  BASE_URL ?>books/edit.php">
-                            <input type="hidden" name="id" value="<?php echo $books['id']; ?>">
+                        <form method="post" action="<?php echo  BASE_URL ?>Loans/edit.php">
+                            <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="bookName" class="form-label">Books Tile</label>
-                                        <input type="text" name="title" class="form-control" id="bookName" required value="<?php echo $books["title"]; ?>" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="isbnNumber" class="form-label">ISBN Number</label>
-                                        <input type="number" name="isbn" class="form-control" id="isbnNumber" required value="<?php echo $books["isbn"]; ?>" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="publisherName" class="form-label">Publication Year</label>
-                                        <input type="number" name="publication_year" class="form-control" id="publisherName" required value="<?php echo $books["publication_year"]; ?>" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="authorName" class="form-label">Author Name</label>
-                                        <input type="text" name="author" class="form-control" id="authorName" required value="<?php echo $books["author"]; ?>" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="category" class="form-label">Category</label>
-                                        <?php
-                                        $cats = getCategories($conn);
+                                        <label for="loan" class="form-label">Select student</label>
+                                        <?php $studentlist = studentList($conn);  ?>
+                                        <!-- <select name="book_id" class="form-control" id="book_id"> -->
+                                        <select name="student_id" class="form-control" id="student_id">
 
-                                        ?>
-                                        <select name="category_id" class="form-control" id="category" required>
                                             <option value="">Please Select</option>
                                             <?php
-
-                                            $selected = "";
-                                            while ($rows = $cats->fetch_assoc()) {
-                                                if ($rows['id'] == $books['category_id']) {
+                                            $selected = '';
+                                            while ($rows = $studentlist->fetch_assoc()) {
+                                                if ($rows['id'] === $booksloandata['student_id'])
                                                     $selected = "selected";
-                                                }
                                             ?>
-                                                <option selected value="<?= $rows['id']; ?>"><?= $rows['name']; ?></option>
+                                                <!-- <option value="<?= $rows['id']; ?>"><?= $rows['name']; ?></option> -->
+                                                <option value="<?= $rows['id']; ?>" <?= ($rows['id'] == $booksloandata['student_id']) ? 'selected' : '' ?>><?= $rows['name']; ?></option>
+
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="loan" class="form-label">Select Book</label>
+                                        <?php $res = getListBook($conn); ?>
+                                        <select name="book_id" class="form-control" id="book_id">
+                                            <option value="">Please Select</option>
+                                            <?php
+                                            $selected = '';
+                                            while ($rows = $res->fetch_assoc()) {
+                                                if ($rows['id'] === $booksloandata['book_id'])
+                                                    $selected = "selected";
+                                            ?>
+                                                <option value="<?= $rows['id']; ?>" <?= ($rows['id'] == $booksloandata['book_id']) ? 'selected' : '' ?>><?= $rows['title']; ?></option>
+
                                             <?php } ?>
                                         </select>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="loan_date" class="form-label">Loan Date</label>
+                                        <input type="date" name="loan_date" class="form-control" id="loan_date" value="<?php echo $booksloandata['loan_date'];   ?>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="return_date" class="form-label">Return Date</label>
+                                        <input type="date" name="return_date" class="form-control" id="return_date" value="<?php echo $booksloandata['return_date'];   ?>" />
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="col-md-12">
-                                <button name="update" type="submit" class="btn btn-success">Update</button>
-                                <a href="<?PHP echo  BASE_URL ?>books" type="submit" class="btn btn-secondary">Back</a>
+                                <button name="submit" type="submit" class="btn btn-success">Save</button>
+                                <a href="<?PHP echo  BASE_URL ?>Loans" type="submit" class="btn btn-secondary">Back</a>
 
                             </div>
                         </form>

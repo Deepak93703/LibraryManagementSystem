@@ -120,10 +120,12 @@
                     <div>
                         <ul class="navbar-nav ps-3">
                             <li>
-                                <a href="" class="nav-link"><i class="fa-solid fa-plus me-2"></i>Plans</a>
+                                <a href="<?php echo BASE_URL ?>subscription"
+                                    class="nav-link"><i class="fa-solid fa-plus me-2"></i>Plans</a>
                             </li>
                             <li>
-                                <a href="" class="nav-link"><i class="fa-solid fa-list me-2"></i>Purchase History</a>
+                                <a h href="<?php echo BASE_URL ?>subscription/purchase-history.php"
+                                    class="nav-link"><i class="fa-solid fa-list me-2"></i>Purchase History</a>
                             </li>
                         </ul>
                     </div>
@@ -133,7 +135,7 @@
                 <hr />
             </li>
             <li class="nav-item">
-                <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+                <a href="<?php echo  BASE_URL ?>logout.php" class="fa-solid fa-right-from-bracket me-2"></a>Logout
             </li>
         </ul>
     </div>

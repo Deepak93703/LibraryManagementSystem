@@ -1,17 +1,19 @@
 <?php
 
 include_once("../config/config.php");
-include_once("../models/book.php");
+include_once("../models/loan.php");
+include_once("./include/middlewear.php");
+
 
 
 ?>
 
 <?php
-if (isset($_POST['publish'])) {
+if (isset($_POST['submit'])) {
   $res = storeLoans($conn, $_POST);
 
   if ($res === true) {
-    $_SESSION['success'] = "Loans has been created successfully";
+    $_SESSION['success'] = "Books   Loans has been created successfully";
     header('Location:' . BASE_URL . "Loans");
     exit;
   } else {
@@ -45,14 +47,11 @@ include_once(DIR_URL . 'include/sidebar.php');
               <div class="row">
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <label for="category" class="form-label">Select Book</label>
-                    <?php
-                    $cats = getCategories($conn);
-
-                    ?>
-                    <select name="book_id" class="form-control" id="category" required>
+                    <label for="loan" class="form-label">Select student</label>
+                    <?php $studentlist = studentList($conn);  ?>
+                    <select name="book_id" class="form-control" id="book_id" >
                       <option value="">Please Select</option>
-                      <?php while ($rows = $cats->fetch_assoc()) { ?>
+                      <?php while ($rows = $studentlist->fetch_assoc()) { ?>
                         <option value="<?= $rows['id']; ?>"><?= $rows['name']; ?></option>
                       <?php } ?>
                     </select>
@@ -60,15 +59,12 @@ include_once(DIR_URL . 'include/sidebar.php');
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <label for="category" class="form-label">Select Student</label>
-                    <?php
-                    $cats = getCategories($conn);
-
-                    ?>
-                    <select name="student_id" class="form-control" id="" required>
+                    <label for="loan" class="form-label">Select Book</label>
+                    <?php $res = getListBook($conn); ?>
+                    <select name="student_id" class="form-control" id="student_id" >
                       <option value="">Please Select</option>
-                      <?php while ($rows = $cats->fetch_assoc()) { ?>
-                        <option value="<?= $rows['id']; ?>"><?= $rows['name']; ?></option>
+                      <?php while ($rows = $res->fetch_assoc()) {                      ?>
+                        <option value="<?= $rows['id']; ?>"><?= $rows['title']; ?></option>
                       <?php } ?>
                     </select>
                   </div>
@@ -77,20 +73,20 @@ include_once(DIR_URL . 'include/sidebar.php');
               <div class="row">
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <label for="publisherName" class="form-label">Loan Date</label>
-                    <input type="date" name="loan_date" class="form-control" id="publisherName" required />
+                    <label for="loan_date" class="form-label">Loan Date</label>
+                    <input type="date" name="loan_date" class="form-control" id="loan_date"  />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <label for="authorName" class="form-label">Return Date</label>
-                    <input type="date" name="return_date" class="form-control" id="authorName" required />
+                    <label for="return_date" class="form-label">Return Date</label>
+                    <input type="date" name="return_date" class="form-control" id="return_date"  />
                   </div>
                 </div>
               </div>
-           
+
               <div class="col-md-12">
-                <button name="submit"  type="submit" class="btn btn-success">Save</button>
+                <button name="submit" type="submit" class="btn btn-success">Save</button>
                 <button type="submit" class="btn btn-secondary">Reset</button>
 
               </div>
