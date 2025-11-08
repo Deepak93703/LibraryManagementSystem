@@ -2,7 +2,7 @@
 
 include_once("../config/config.php");
 include_once("../models/book.php");
-include_once("./include/middlewear.php");
+include_once("../include/middlewear.php");
 
 
 
@@ -19,7 +19,7 @@ if (isset($_POST['update'])) {
         exit;
     } else {
         $_SESSION['error'] = $res['error'] . $conn->error;
-        header('Location:' . BASE_URL . "books/?id=" . $_POST['id']);
+        header('Location:' . BASE_URL . "books" . "/edit.php/?id=" . $_POST['id']);
         exit;
     }
 }

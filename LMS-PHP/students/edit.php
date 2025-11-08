@@ -2,7 +2,7 @@
 
 include_once("../config/config.php");
 include_once("../models/student.php");
-include_once("./include/middlewear.php");
+include_once("../include/middlewear.php");
 
 
 
@@ -14,7 +14,7 @@ if (isset($_POST['update'])) {
     $res = updatingstudent($conn, $_POST);
 
     if ($res === true) {
-        $_SESSION['success'] = "studentshas been updated successfully";
+        $_SESSION['success'] = "student has been updated successfully";
         header('Location:' . BASE_URL . "students");
         exit;
     } else {

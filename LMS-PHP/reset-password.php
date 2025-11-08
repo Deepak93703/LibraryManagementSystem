@@ -1,7 +1,32 @@
 <?php
 
-include_once("./include/middlewear.php");
+include_once("config/config.php");
+include_once(DIR_URL . "config/database.php");
+include_once("./models/auth.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
+
+
+
+if (isset($_SESSION['is_user_login'])) {
+    header("LOCATION: " . BASE_URL . 'dashboard.php');
+    exit;
+}
+
+// forget password functionality 
+if (isset($_POST['submit'])) {
+    $res = resetPassword($conn, $_POST);
+    if ($res['status'] == true) {
+        $_SESSION['success'] = $res['message'];
+        header("LOCATION: " . BASE_URL . 'index.php');
+        exit;
+    } else {
+        $_SESSION['error'] = $res['message'];
+        header("LOCATION: " . BASE_URL . "reset-password.php");
+        exit;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +41,7 @@ include_once("./include/middlewear.php");
         crossorigin="anonymous" />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="./assets/js/1c26fb5c51.js" crossorigin="anonymous"></script>
-    <title>Login Star Library</title>
+    <title>Reset Password | Login Star Library</title>
     <style>
         /* Ensure the image fills left column */
         .login-form .col-md-5 img {
@@ -48,38 +73,35 @@ include_once("./include/middlewear.php");
                                 </h1>
                                 <p class="card-text">Reset Password</p>
                                 <?php include_once(DIR_URL . "include/alerts.php"); ?>
-                                <form method="post" action="<?php echo BASE_URL?>"reset-password.php>
+                                <form method="post" action="<?php echo BASE_URL?>reset-password.php">
                                     <div class="mb-3">
                                         <label class="form-label">Reset Password Code</label>
                                         <input
                                             type="text"
                                             name="reset_code"
                                             class="form-control"
-                                            id="exampleInputEmail1"
-                                             />
+                                            id="exampleInputEmail1" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">New Password</label>
                                         <input
                                             type="password"
                                             name="password"
-                                            class="form-control"
-                                             />
+                                            class="form-control" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
                                         <input
                                             type="password"
                                             name="cnf_password"
-                                            class="form-control"
-                                             />
+                                            class="form-control" />
                                     </div>
 
                                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                                 </form>
                                 <hr />
                                 <a
-                                    href="./forget-password.html"
+                                    href="./index.php"
                                     class="card-link link-underline-light">Login Now</a>
                             </div>
                         </div>

@@ -11,24 +11,42 @@ function create($conn, $param)
     extract($param);
     // validation start
     if (empty($title)) {
-        $result = array("error" => "Title is required");
+        $result = array("error" => "Plan Title is required");
         return $result;
     } elseif (empty($amount)) {
-        $result = array("error" => "ISBN is required");
+        $result = array("error" => "Plan Amount is required");
         return $result;
     } elseif (empty($duration)) {
-        $result = array("error" => "Publication Year is required");
+        $result = array("error" => "Plan Duration is required");
         return $result;
     }
 
     // validation end
 
     $datetime = DATE('y-m-d h:i:s');
+    if (!empty($param)) {
+        $id = $param['id'];
+        $title = mysqli_real_escape_string($conn, $param['title']);
+        $amount = (float)$param['amount'];
+        $duration = (int)$param['duration'];
 
-    $sql = "INSERT INTO subscription_plans(title, amount, duration, created_at) 
+        $sql = "SELECT * FROM subscription_plans 
+            WHERE title = '$title' 
+            AND amount = $amount 
+            AND duration = $duration";
+        $res = $conn->query($sql);
+        if ($res && $res->num_rows > 0) {
+   
+            $result = array("error" => "Plan Already Exists");
+        } else {
+            $sql = "INSERT INTO subscription_plans(title, amount, duration, created_at) 
             VALUES('$title', $amount, $duration, '$datetime')";
 
-    $result['success'] =  $conn->query($sql);
+            $result['success'] =  $conn->query($sql);
+        }
+    }
+
+
     return $result;
 }
 

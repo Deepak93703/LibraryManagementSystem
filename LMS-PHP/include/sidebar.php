@@ -135,7 +135,9 @@
                 <hr />
             </li>
             <li class="nav-item">
-                <a href="<?php echo  BASE_URL ?>logout.php" class="fa-solid fa-right-from-bracket me-2"></a>Logout
+
+                <a h href="<?php echo BASE_URL ?>logout.php"
+                    class="nav-link"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</a>
             </li>
         </ul>
     </div>

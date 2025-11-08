@@ -3,7 +3,7 @@
 include_once("../config/config.php");
 include_once("../config/database.php");
 include_once("../models/subscription.php");
-include_once("./include/middlewear.php");
+include_once("../include/middlewear.php");
 
 
 
@@ -141,7 +141,7 @@ include_once(DIR_URL . 'include/sidebar.php');
                                             <tr>
                                                 <th scope="row"><?php echo $index++; ?></th>
                                                 <td><?php echo $row['title']; ?></td>
-                                                <td><?php echo $row['amount']; ?></td>
+                                                <td>₹<?php echo  $row['amount']; ?></td>
                                                 <td><?php echo $row['duration']; ?></td>
                                                 <td>
                                                     <?php

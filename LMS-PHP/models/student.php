@@ -9,16 +9,6 @@ function storeStudents($conn, $param)
 {
 
     extract($param);
-
-    // echo '<pre>';
-    // print_r($conn);
-    // echo '</pre>';
-
-    // echo '<pre>';
-    // print_r($param);
-    // echo '</pre>';
-    // exit;
-
     // validation start
     if (empty($name)) {
         $result = array("error" => "name is required");
@@ -36,12 +26,10 @@ function storeStudents($conn, $param)
         $result = array("error" => "Phone Number is already registered");
         return $result;
     } elseif (UniqueEmail($conn,  $email)) {
-        $result = array('error' => 'email is alraedy registered');
+        $result = array('error' => 'email is already registered');
         return $result;
     } elseif (mobilelegnthchecker($phone_no)) {
-        echo "Hi";
         $result = array('error' => 'Please enter a Valid Number');
-
         return $result;
     }
     // validation end

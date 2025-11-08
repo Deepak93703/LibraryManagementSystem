@@ -2,7 +2,7 @@
 
 include_once("../config/config.php");
 include_once("../config/database.php");
-include_once("./include/middlewear.php");
+include_once("../include/middlewear.php");
 include_once("../models/loan.php");
 
 // get ALL Books Loans Data
@@ -16,7 +16,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     $del =   deletebooksloandata($conn, $_GET['id']);
 
     if ($del == true) {
-        $_SESSION['success'] = "Book has been deleted succesfully";
+        $_SESSION['success'] = "Book Loan has been deleted succesfully";
     } else {
         $_SESSION['error'] = "Something went wrong" . $conn->error;
     }

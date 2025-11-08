@@ -49,7 +49,7 @@ function storeLoans($conn, $loans_data_post)
 // Function to fetch All Books Loans
 function getALLBooksLoansData($conn)
 {
-    $sql = "SELECT bl.id, s.name as student_name, b.title as book_name, bl.return_date as book_return_date, bl.loan_date as book_loan_date, bl.is_return as book_return_or_not, bl.created_at as loan_creation_date, bl.updated_at  FROM books_loan as bl LEFT JOIN books as b ON b.id=bl.book_id LEFT JOIN students as s ON s.id = bl.student_id ORDER BY bl.id";
+    $sql = "SELECT bl.id, s.name as student_name, b.title as book_name, bl.return_date as book_return_date, bl.loan_date as book_loan_date, bl.is_return as book_return_or_not, bl.created_at as loan_creation_date, bl.updated_at  FROM books_loan as bl LEFT JOIN books as b ON b.id=bl.book_id LEFT JOIN students as s ON s.id = bl.student_id ORDER BY bl.id desc";
     $res = $conn->query($sql);
     return $res;
 }
@@ -82,7 +82,7 @@ function updateBooksLoansStatus($conn, $id, $status)
 // Function to get Book Loan data  for prefill purpose
 function getBookById($conn, $id)
 {
-    $sql = "SELECT * from books_loan where id = $id";
+    $sql = "SELECT * from books_loan where id = $id ORDER by created_at";
     $res =  $conn->query($sql);
     return $res;
 }

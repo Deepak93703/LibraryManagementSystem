@@ -1,0 +1,15 @@
+{
+    "name": "deepak/library-management-system",
+    "autoload": {
+        "psr-4": {
+            "Deepak\\LibraryManagementSystem\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Deepak937303",
+            "email": "prajapatideepak10943@gmail.com"
+        }
+    ],
+    "require": {}
+}
