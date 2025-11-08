@@ -60,3 +60,29 @@ body {
     }
 }
 
+#suggestions {
+    position: absolute;       /* float below input */
+    top: 100%;                /* right below the input */
+    left: 0;
+    background: #fff;         /* white background */
+    border: 1px solid ;   /* border */
+    width: 100%;              /* match input width */
+    max-height: 200px;        /* scroll if too long */
+    overflow-y: auto;
+    z-index: 1000;            /* stay on top */
+}
+
+.autocomplete-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.autocomplete-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.autocomplete-list li:hover {
+    background-color: #f0f0f0;
+}
